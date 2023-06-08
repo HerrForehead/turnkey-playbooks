@@ -8,11 +8,11 @@
         hostname: vcenter.netlab.fhict.nl
         username: PRO35@fhict.nl
         password: Wmy4CqMXY
-        folder: test
+        folder: /Netlab-DC/_Courses/ProjectAccounts/PRO35/
         name: test_vm_0001
         state: poweredon
         guest_id: ubuntu64Guest
-        datacenter: Netlab-DC
+        datacenter: NETLAB-DC
         esxi_hostname: n-esx07.netlab.fhict.nl
         disk:
           - size_gb: 30
