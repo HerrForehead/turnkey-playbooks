@@ -13,7 +13,7 @@
       state: poweredon
       guest_id: ubuntu64Guest
       # This is hostname of particular ESXi server on which user wants VM to be deployed
-      esxi_hostname: "{{ esxi_hostname }}"
+      esxi_hostname: n-esx07.netlab.fhict.nl
       disk:
       - size_gb: 30
         type: thin
