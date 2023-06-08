@@ -7,7 +7,7 @@
   connection: local
   vars:
     vcenter_hostname: vcenter.netlab.fhict.nl
-    vcenter_user: PROF35@fhict.local
+    vcenter_user: PRO35@fhict.nl
     vcenter_pass: Wmy4CqMXY
     esxhost: n-esx07.netlab.fhict.nl
     datastore: DataCluster-Students
