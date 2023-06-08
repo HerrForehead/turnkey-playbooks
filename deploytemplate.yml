@@ -8,7 +8,7 @@
         hostname: vcenter.netlab.fhict.nl
         username: PRO35@fhict.nl
         password: Wmy4CqMXY
-        folder: /Netlab-DC/_Courses/ProjectAccounts/PRO35/
+        folder: /_Courses/ProjectAccounts/PRO35/
         name: test_vm_0001
         state: poweredon
         guest_id: ubuntu64Guest
