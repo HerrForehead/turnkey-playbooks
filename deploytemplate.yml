@@ -11,6 +11,7 @@
     vcenter_pass: Wmy4CqMXY
     esxhost: n-esx07.netlab.fhict.nl
     datastore: DataCluster-Students
+    folder: /_Courses/ProjectAccounts/PRO35/ 
     vmtemplate: Templ_Ubuntu-Linux_Server_22.04.1
     name: "newvm"
     notes: Ansible Test
