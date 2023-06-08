@@ -3,32 +3,31 @@
   gather_facts: false
   connection: local
   tasks:
-  - name: Create new VM
-    community.vmware.vmware_guest:
-      hostname: vcenter.netlab.fhict.nl
-      username: PRO35@fhict.nl
-      password: Wmy4CqMXY
-      folder: /Netlab-DC/_Courses/ProjectAccounts/PRO35/
-      name: test_vm_0001
-      state: poweredon
-      guest_id: ubuntu64Guest
-      # This is hostname of particular ESXi server on which user wants VM to be deployed
-      esxi_hostname: n-esx07.netlab.fhict.nl
-      disk:
-      - size_gb: 30
-        type: thin
-        datastore: NIM01-1
-      hardware:
-        memory_mb: 2048
-        num_cpus: 4
-        scsi: paravirtual
-      networks:
-      - name: 0308-STATIC-192.168.158.x_24
-        mac: aa:bb:dd:aa:00:14
-        ip: 192.168.158.69
-        netmask: 255.255.255.0
-        device_type: vmxnet3
-      wait_for_ip_address: true
-      wait_for_ip_address_timeout: 600
-    delegate_to: localhost
-    register: deploy_vm
+    - name: Create new VM
+      community.vmware.vmware_guest:
+        hostname: vcenter.netlab.fhict.nl
+        username: PRO35@fhict.nl
+        password: Wmy4CqMXY
+        folder: /Netlab-DC/_Courses/ProjectAccounts/PRO35/
+        name: test_vm_0001
+        state: poweredon
+        guest_id: ubuntu64Guest
+        esxi_hostname: n-esx07.netlab.fhict.nl
+        disk:
+          - size_gb: 30
+            type: thin
+            datastore: DataCluster-Students
+        hardware:
+          memory_mb: 2048
+          num_cpus: 4
+          scsi: paravirtual
+        networks:
+          - name: 0308-STATIC-192.168.158.x_24
+            mac: aa:bb:dd:aa:00:14
+            ip: 192.168.158.69
+            netmask: 255.255.255.0
+            device_type: vmxnet3
+        wait_for_ip_address: true
+        wait_for_ip_address_timeout: 600
+      delegate_to: localhost
+      register: deploy_vm
