@@ -4,7 +4,7 @@
   connection: local
   community.vmware.vmware_guest:
     hostname: vcenter.netlab.fhict.nl
-    username: PRO35
+    username: PRO35@fhict.nl
     password: Wmy4CqMXY
     folder: /Netlab-DC/_Courses/ProjectAccounts/PRO35/
     name: test_vm_0001
