@@ -1,5 +1,4 @@
 from pyVim import connect
-from pyVmomi import vim
 
 # vSphere connection details
 vcenter_hostname = 'vcenter.netlab.fhict.nl'
@@ -9,7 +8,7 @@ vcenter_pass = 'Wmy4CqMXY'
 def retrieve_network_devices():
     try:
         # Connect to vSphere
-        service_instance = connect.SmartConnectNoSSL(
+        service_instance = connect.SmartConnect(
             host=vcenter_hostname,
             user=vcenter_user,
             pwd=vcenter_pass
