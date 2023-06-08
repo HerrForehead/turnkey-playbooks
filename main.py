@@ -34,10 +34,21 @@ def retrieve_network_devices():
         # Retrieve all datacenters in the vSphere inventory
         datacenters = root_folder.childEntity
         for datacenter in datacenters:
-            # Retrieve all networks in the datacenter
-            networks = datacenter.networkFolder.childEntity
-            for network in networks:
-                print_network(network, 0)
+            # Retrieve the network folder of the datacenter
+            network_folder = datacenter.networkFolder
+
+            # Retrieve the vDS-VLAN folder
+            vds_vlan_folder = None
+            for child_folder in network_folder.childEntity:
+                if child_folder.name == 'vDS-VLAN':
+                    vds_vlan_folder = child_folder
+                    break
+
+            # If vDS-VLAN folder is found, retrieve networks inside it
+            if vds_vlan_folder:
+                networks = vds_vlan_folder.childEntity
+                for network in networks:
+                    print_network(network, 0)
 
     except Exception as e:
         print(f"Error: {str(e)}")
