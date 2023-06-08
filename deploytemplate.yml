@@ -1,4 +1,7 @@
 - name: Create a virtual machine on given ESXi hostname
+  hosts: localhost
+  gather_facts: false
+  connection: local
   community.vmware.vmware_guest:
     hostname: vcenter.netlab.fhict.nl
     username: PRO35
