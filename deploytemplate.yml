@@ -1,33 +1,33 @@
-- name: Create a virtual machine on given ESXi hostname
-  hosts: localhost
-  gather_facts: false
+- hosts: localhost
   connection: local
   tasks:
-    - name: Create new VM
-      community.vmware.vmware_guest:
-        hostname: vcenter.netlab.fhict.nl
-        username: PRO35@fhict.nl
-        password: Wmy4CqMXY
-        folder: /Netlab-DC/_Courses/ProjectAccounts/PRO35/
-        name: test_vm_0001
-        state: poweredon
-        guest_id: ubuntu64Guest
-        esxi_hostname: n-esx07.netlab.fhict.nl
-        disk:
-          - size_gb: 30
-            type: thin
-            datastore: DataCluster-Students
-        hardware:
-          memory_mb: 2048
-          num_cpus: 4
-          scsi: paravirtual
-        networks:
-          - name: 0308-STATIC-192.168.158.x_24
-            mac: aa:bb:dd:aa:00:14
-            ip: 192.168.158.69
-            netmask: 255.255.255.0
-            device_type: vmxnet3
-        wait_for_ip_address: true
-        wait_for_ip_address_timeout: 600
-      delegate_to: localhost
-      register: deploy_vm
+    - vsphere_guest:
+            vcenter_hostname: vcenter.netlab.fhict.nl
+            username: PRO35@fhict.nl
+            password: Wmy4CqMXY
+            guest: newvm001
+            state: powered_on
+            validate_certs: no
+            vm_extra_config:
+                vcpu.hotadd: yes
+                mem.hotadd:  yes
+                notes: This is a test VM
+                folder: MyFolder
+            vm_disk:
+                disk1:
+                        size_gb: 20
+                        type: thin
+                        datastore: DataCluster-Students
+            vm_nic:
+                nic1:
+                    type: vmxnet3
+                    network: 0308-STATIC-192.168.158.x_24
+                    network_type: standard
+            vm_hardware:
+                memory_mb: 4096
+                num_cpus: 2
+                osid: ubuntu64Guest
+                scsi: paravirtual
+            esxi:
+                datacenter: n-esx07.netlab.fhict.nl
+                hostname: n-esx07.netlab.fhict.nl
