@@ -1,4 +1,5 @@
 from pyVim import connect
+import sys
 
 # vSphere connection details
 vcenter_hostname = 'vcenter.netlab.fhict.nl'
