@@ -5,35 +5,35 @@ vcenter_hostname = 'vcenter.netlab.fhict.nl'
 vcenter_user = 'PRO35@fhict.nl'
 vcenter_pass = 'Wmy4CqMXY'
 
-def retrieve_network_devices():
-    try:
-        # Connect to vSphere
-        service_instance = connect.SmartConnect(
-            host=vcenter_hostname,
-            user=vcenter_user,
-            pwd=vcenter_pass
-        )
+def list_entities(entity):
+    if hasattr(entity, 'childEntity'):
+        # Entity is a folder, recursively list its child entities
+        for child in entity.childEntity:
+            list_entities(child)
+    elif isinstance(entity, vim.Network):
+        # Entity is a network
+        print(f"Network: {entity.name}")
 
-        # Retrieve the content
-        content = service_instance.RetrieveContent()
+# Connect to vSphere
+service_instance = connect.SmartConnect(
+    host=vcenter_hostname,
+    user=vcenter_user,
+    pwd=vcenter_pass
+)
 
-        # Get the root folder
-        root_folder = content.rootFolder
+try:
+    # Retrieve the content
+    content = service_instance.RetrieveContent()
 
-        # Retrieve all datacenters in the vSphere inventory
-        datacenters = root_folder.childEntity
-        for datacenter in datacenters:
-            # Retrieve all networks in the datacenter
-            networks = datacenter.networkFolder.childEntity
-            for network in networks:
-                print(f"Network: {network.name}")
+    # Get the root folder
+    root_folder = content.rootFolder
 
-    except Exception as e:
-        print(f"Error: {str(e)}")
+    # Recursively list child entities starting from the root folder
+    list_entities(root_folder)
 
-    finally:
-        # Disconnect from vSphere
-        connect.Disconnect(service_instance)
+except Exception as e:
+    print(f"Error: {str(e)}")
 
-# Retrieve and display network devices
-retrieve_network_devices()
+finally:
+    # Disconnect from vSphere
+    connect.Disconnect(service_instance)
