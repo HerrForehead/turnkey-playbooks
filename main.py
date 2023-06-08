@@ -1,4 +1,5 @@
 from pyVim import connect
+from pyVmomi import vim
 
 # vSphere connection details
 vcenter_hostname = 'vcenter.netlab.fhict.nl'
