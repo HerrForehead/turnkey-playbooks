@@ -5,6 +5,17 @@ vcenter_hostname = 'vcenter.netlab.fhict.nl'
 vcenter_user = 'PRO35@fhict.nl'
 vcenter_pass = 'Wmy4CqMXY'
 
+def print_network(network, level):
+    indent = '  ' * level
+    print(f"{indent}Network: {network.name}")
+
+    # Check if the network has child folders
+    if hasattr(network, 'childEntity'):
+        # Retrieve and print the child folders
+        child_folders = network.childEntity
+        for child_folder in child_folders:
+            print_network(child_folder, level + 1)
+
 def retrieve_network_devices():
     try:
         # Connect to vSphere
@@ -26,7 +37,7 @@ def retrieve_network_devices():
             # Retrieve all networks in the datacenter
             networks = datacenter.networkFolder.childEntity
             for network in networks:
-                print(f"Network: {network.name}")
+                print_network(network, 0)
 
     except Exception as e:
         print(f"Error: {str(e)}")
