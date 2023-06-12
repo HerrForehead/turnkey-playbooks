@@ -7,7 +7,7 @@
     - community.vmware
     
   pre_tasks:
-      - include_vars: varsTempl.yml
+      - include_vars: vars.yml
       
   tasks:
   - name: Create a virtual machine from a template
