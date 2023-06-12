@@ -1,25 +1,29 @@
 ---
-vcenter_hostname: "vcenter.netlab.fhict.nl" 
-vcenter_datacenter: "Netlab-DC" 
-vcenter_validate_certs: false 
-vcenter_username: "PRO35@fhict.local" #"PRO35@fhict.local"
+vcenter_username: "PRO35@fhict.nl" #"PRO35@fhict.local"
 vcenter_password: "Wmy4CqMXY"
-vcenter_cluster: "NETLAB-Cluster" 
 
-
-vm_name: "ubuntuTest2" 
+user_resourcepool: "PRO35"
+vm_name: "UbuntuTemplTest3" 
 vm_guestid: "ubuntu64Guest" 
+vm_template_name: "Templ_Ubuntu-Linux_Server_22.04.1" #"template"
 
-vm_disk_gb: 30 
+vm_disk_gb: 70
 vm_disk_type: "thin" 
 vm_disk_datastore: "NIM01-1" 
 
-vm_hw_ram_mb: 4096 
-vm_hw_cpu_n: 1 
-vm_hw_scsi: "paravirtual"
-vm_net_name: "0000-DummyPort" 
-vcenter_destination_folder: "/Netlab-DC/vm/_Courses/ProjectAccounts/PRO35/test"
 
+vm_hw_ram_mb: 8192
+vm_hw_cpu_n: 2
+vm_net_name: "3077_PRO35_PVlanB" 
+vcenter_destination_folder: "/Netlab-DC/vm/_Courses/ProjectAccounts/PRO35/test" #/test"
+
+
+
+
+vcenter_hostname: "vcenter.netlab.fhict.nl" 
+vcenter_datacenter: "Netlab-DC" 
+vcenter_validate_certs: false 
+vcenter_cluster: "NETLAB-Cluster" 
 # vcenter_hostname:  Hostname of vSphere vCenter or ESXi server.
 # vcenter_datacenter:  Destination datacenter for the deploy operation.
 # vcenter_validate_certs:  Allows connection when SSL certificates are not valid.
