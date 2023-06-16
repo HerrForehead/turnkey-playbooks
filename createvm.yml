@@ -61,12 +61,12 @@
         - name: "{{ vm_net_name }}"
           connected: true
           type: static
-          ip: 192.168.169.50
-          netmask: 255.255.255.0
-          gateway: 192.168.169.1
+          ip: "192.168.169.50"
+          netmask: "255.255.255.0"
+          gateway: "192.168.169.1"
           dns_servers:
-            - 192.168.169.1
-            - 8.8.8.8
+            - "192.168.169.1"
+            - "8.8.8.8"
       wait_for_ip_address: true
       
       state: present
