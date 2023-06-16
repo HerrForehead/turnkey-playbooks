@@ -1,0 +1,132 @@
+- name: Create vCenter VMs
+  hosts: localhost
+  become: false
+  gather_facts: false
+  collections:
+    - community.vmware
+    
+  pre_tasks:
+      - include_vars: k8vars.yml
+      
+  tasks:
+    - name: Get all portgroups (networks) in dvswitch vDS
+      community.vmware.vmware_dvs_portgroup_find:
+        hostname: "{{ vcenter_hostname }}"
+        username: "{{ vcenter_username }}"
+        password: "{{ vcenter_password }}"
+        dvswitch: 'SW-VLAN'
+      delegate_to: localhost
+      register: networks_dict
+      
+    - name: "Set network variable"
+      set_fact:
+        network: "{{ item.name }}" 
+      loop: "{{ networks_dict.dvs_portgroups }}"
+      when: item.name is search("DHCP")
+      
+    - name: "Set IP"
+      set_fact:
+        user_resourcepool: "{{ vcenter_username | ansible.builtin.split('@') }}"
+        hostIP: "{{ network | ansible.builtin.regex_search('([0-9]{3}.[0-9]{3}.[0-9]{2,}.)') + '10'}}"
+        gateway: "{{ network | ansible.builtin.regex_search('([0-9]{3}.[0-9]{3}.[0-9]{2,}.)') + '1'}}"
+        
+        
+    - name: Provide information about vCenter folders
+      community.vmware.vmware_folder_info:
+        hostname: '{{ vcenter_hostname }}'
+        username: '{{ vcenter_username }}'
+        password: '{{ vcenter_password }}'
+        datacenter: "Netlab-DC"
+      delegate_to: localhost
+      register: vcenter_folder_info     
+        
+    - name: "Set variables (folder)"
+      set_fact:
+        dict: "{{ vcenter_folder_info.folder_info.vmFolders.subfolders._Courses.subfolders | dict2items(key_name='name', value_name='realname') }}"
+        startpath: "/Netlab-DC/vm/_Courses/"
+        
+        
+    - name: "Combine variables"
+      set_fact:
+        vcenter_destination_folder: "{{ startpath }}{{ dict[0].name }}/{{ user_resourcepool[0] }}/"
+        
+    - name: "Print folder variable"
+      debug:
+        msg:  "{{ vcenter_destination_folder }}"  
+        
+        
+    - name: Create a virtual machine from a template
+      community.vmware.vmware_guest:
+        hostname: "vcenter.netlab.fhict.nl"
+        datacenter: "Netlab-DC"
+        cluster: "NETLAB-Cluster"
+        resource_pool: "{{ user_resourcepool[0] }}"
+
+        username: "{{ vcenter_username }}"
+        password: "{{ vcenter_password }}"
+
+        name: "{{ vm_name }}"
+        folder: "{{ vcenter_destination_folder }}"
+        template: "{{ vm_template_name }}"
+        datastore: "{{ vm_disk_datastore }}"
+
+        state: poweredoff
+
+    - name: Reconfigure VM
+      community.vmware.vmware_guest:
+        hostname: "vcenter.netlab.fhict.nl"
+        datacenter: "Netlab-DC"
+        cluster: "NETLAB-Cluster"
+        #resource_pool: "{{ user_resourcepool[0] }}"
+
+        username: "{{ vcenter_username }}"
+        password: "{{ vcenter_password }}"
+
+        #folder: "{{ vcenter_destination_folder }}"
+        name: "{{ vm_name }}"
+
+        networks:
+          - name: "{{ network }}"
+            connected: true
+            #type: static
+            ip: "{{ hostIP }}"
+            gateway: "{{ gateway }}"
+            netmask: 255.255.255.0
+        wait_for_ip_address: true
+
+
+        disk:
+          - size_gb: "{{ vm_disk_gb }}"
+            type: "{{ vm_disk_type }}"
+            datastore: "{{ vm_disk_datastore }}"
+
+        hardware:
+          memory_mb: "{{ vm_hw_ram_mb }}"
+          num_cpus: "{{ vm_hw_cpu_n }}"
+          num_cpu_cores_per_socket: 1
+          scsi: paravirtual
+          hotadd_cpu: true
+          hotremove_cpu: true
+          hotadd_memory: false
+          boot_firmware: "efi"
+
+        #state: powered-on
+        #state: present
+
+    - name: Wait for 5 seconds before starting VM
+      pause:
+        seconds: 5
+
+    - name: Power on the virtual machine
+      community.vmware.vmware_guest:
+        hostname: "vcenter.netlab.fhict.nl"
+        username: "{{ vcenter_username }}"
+        password: "{{ vcenter_password }}"
+        datacenter: "Netlab-DC"
+        cluster: "NETLAB-Cluster"
+        name: "{{ vm_name }}"
+        state: poweredon
+        
+        
+
+      
