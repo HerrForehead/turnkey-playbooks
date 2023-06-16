@@ -1,0 +1,18 @@
+setupK8SVM:
+
+- It fetches all portgroups(networks) on the virtual switch in vCenter. There is only one switch - SW-VLAN. It puts this data into a dictionary. 
+- It looks for a substring in the names of the networks ('DHCP', 'STATIC', etc.). Based on this it sets the network variable to the name of the desired network.
+- It fetches the resource pool by taking the username and splitting the string. Creates a host IP where the IP is X.X.X.10/24. Host IP is always 10 in the end for now. Gateway is set to X.X.X.1. Change it under the "Set IP" task if necessary.
+- Gets the folder layout for the user. Starts at '/Netlab-DC/vm/_Courses/' and finds a folder where it can create a VM - '/Netlab-DC/vm/_Courses/{semester}/{user}/'. This is set to the folder variable.
+- Rest of the playbook creates the VM, reconfigures it based on the variables provided, and starts it up.
+
+
+What we need from the students:
+	username (XYZABC@fhict.nl)
+	password
+	disk size
+	RAM
+	Number of CPUs
+	
+Everything else is either hard-coded or dynamic  with variables. We can put the variables in the variables files (k8vars.yml) or pass them to the playbook like so:
+ansible-playbook deploy-apache.yaml --extra-vars "vm_name=masterNode vcenter_username=username@fhict.nl vm_hw_ram_mb=8192"
