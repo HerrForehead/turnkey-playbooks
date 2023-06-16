@@ -1,0 +1,43 @@
+---
+vcenter_username: "PRO35@fhict.local"
+vcenter_password: "Wmy4CqMXY"
+
+
+vm_name: "kubernet" 
+vm_guestid: "ubuntu64Guest" 
+vm_template_name: "Templ_Ubuntu-Linux_Server_20.04.5"
+
+vm_disk_gb: 50
+vm_disk_type: "thin" 
+vm_disk_datastore: "NIM01-1" 
+
+
+vm_hw_ram_mb: 8192
+vm_hw_cpu_n: 2
+
+
+
+
+
+
+
+
+vcenter_hostname: "vcenter.netlab.fhict.nl" 
+vcenter_datacenter: "Netlab-DC" 
+vcenter_validate_certs: false 
+vcenter_cluster: "NETLAB-Cluster" 
+# vcenter_hostname:  Hostname of vSphere vCenter or ESXi server.
+# vcenter_datacenter:  Destination datacenter for the deploy operation.
+# vcenter_validate_certs:  Allows connection when SSL certificates are not valid.
+# vcenter_username:  The username of the vSphere vCenter or ESXi server.
+# vcenter_password:  The password of the vSphere vCenter or ESXi server.
+# vcenter_cluster:  The cluster name where the virtual machine will run.
+# vm_name:  Name of the virtual machine to work with.
+# vm_guestid:  Guest ID
+# vm_disk_gb:  Disk storage size in gb.
+# vm_disk_type:  Disk type
+# vm_disk_datastore:  The name of datastore which will be used for the disk.
+# vm_hw_ram_mb:  Amount of memory in MB.
+# vm_hw_cpu_n:  Number of CPUs.
+# vm_net_name:  Name of the portgroup or distributed virtual portgroup for this interface.
+# vcenter_destination_folder:  Destination folder, absolute path to find an existing guest or create the new guest.
