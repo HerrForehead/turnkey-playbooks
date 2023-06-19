@@ -85,10 +85,10 @@
         #folder: "{{ vcenter_destination_folder }}"
         name: "{{ vm_name }}"
 
-        networks:
+        network:
           - name: "{{ network }}"
             connected: true
-            #type: static
+            type: static
             ip: "{{ hostIP }}"
             gateway: "{{ gateway }}"
             netmask: 255.255.255.0
