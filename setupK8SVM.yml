@@ -85,7 +85,7 @@
         #folder: "{{ vcenter_destination_folder }}"
         name: "{{ vm_name }}"
 
-        network:
+        networks:
           - name: "{{ network }}"
             connected: true
             type: static
