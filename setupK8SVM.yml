@@ -126,7 +126,53 @@
         cluster: "NETLAB-Cluster"
         name: "{{ vm_name }}"
         state: poweredon
-        
-        
 
-      
+- name: Configure netplan
+  hosts: your_server
+  become: true
+  tasks:
+    - name: Uncomment static section
+      become: true
+      become_method: sudo
+      replace:
+        path: /etc/netplan/seclab.yaml  # Replace with the actual path to your netplan file
+        regexp: '^(#network:)$'
+        replace: 'network:'
+
+    - name: Comment DHCP section
+      become: true
+      become_method: sudo
+      replace:
+        path: /etc/netplan/seclab.yaml  # Replace with the actual path to your netplan file
+        regexp: '^(network:)$'
+        replace: '#network:'
+
+    - name: Modify IP address
+      become: true
+      become_method: sudo
+      lineinfile:
+        path: /etc/netplan/seclab.yaml  # Replace with the actual path to your netplan file
+        regex: '^(.*)addresses: \[.*\]$'
+        line: 'addresses: [192.168.199.177/24]'
+
+    - name: Modify gateway
+      become: true
+      become_method: sudo
+      lineinfile:
+        path: /etc/netplan/seclab.yaml  # Replace with the actual path to your netplan file
+        regex: '^(.*)gateway4:.*$'
+        line: 'gateway4: 192.168.199.1'
+
+    - name: Modify nameservers
+      become: true
+      become_method: sudo
+      lineinfile:
+        path: /etc/netplan/seclab.yaml  # Replace with the actual path to your netplan file
+        regex: '^(.*)addresses: \[.*\]$'
+        line: 'addresses: [192.168.200.10, 192.168.200.11]'
+
+    - name: Apply netplan configuration
+      become: true
+      become_method: sudo
+      shell: netplan apply
+
