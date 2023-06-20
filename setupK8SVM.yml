@@ -129,7 +129,7 @@
 
     - name: Wait for 30 seconds before checking vmware-tools status
       pause:
-        seconds: 30
+        seconds: 300
 
     - name : Run a command on the VM to change netplan
       community.vmware.vmware_vm_shell:
