@@ -127,6 +127,10 @@
         name: "{{ vm_name }}"
         state: poweredon
 
+    - name: Wait for 30 seconds before checking vmware-tools status
+      pause:
+        seconds: 30
+
     - name: "Check the vmware-tools status"
       vmware_guest_info:
         hostname: "{{ vcenter_hostname }}"
