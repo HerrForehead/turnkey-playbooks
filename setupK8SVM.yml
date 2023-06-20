@@ -131,19 +131,6 @@
       pause:
         seconds: 30
 
-    - name: "Check the vmware-tools status"
-      vmware_guest_info:
-        hostname: "{{ vcenter_hostname }}"
-        username: "{{ vcenter_username }}"
-        password: "{{ vcenter_password }}"
-        validate_certs: false
-        datacenter: "{{ vcenter_datacenter }}"
-        folder: "{{ folder_name }}"
-        name: "{{ vm_name }}"
-      register: check_vmware_tools_status_result
-
-    - debug: var=check_vmware_tools_status_result.instance.guest_tools_status
-
     - name : Run a command on the VM to change netplan
       community.vmware.vmware_vm_shell:
         hostname: "{{ vcenter_hostname }}"
