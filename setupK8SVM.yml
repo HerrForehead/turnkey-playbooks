@@ -112,19 +112,30 @@
 
         #state: powered-on
         #state: present
-    - name: Add ISO as a disk
-      community.vmware.vmware_guest_cdrom:
-        hostname: "{{ vcenter_hostname }}"
+    # Add a cd rom to the VM and mount the ISO
+    - name: Add a cd rom to the VM and mount the ISO
+      community.vmware.vmware_guest_disk:
+        hostname: "vcenter.netlab.fhict.nl"
         username: "{{ vcenter_username }}"
         password: "{{ vcenter_password }}"
-        validate_certs: False
-        datacenter: "{{ vcenter_datacenter }}"
+        datacenter: "Netlab-DC"
+        cluster: "NETLAB-Cluster"
         name: "{{ vm_name }}"
         state: present
-        cdrom:
-          type: iso
-          iso_datastore: "{{ iso_datastore }}"
-          iso_path: "{{ iso_path }}"
+        disk:
+          - size_gb: 1
+            type: thin
+            datastore: "{{ iso_datastore }}"
+            autoselect_datastore: true
+            scsi_controller: 0
+            scsi_type: paravirtual
+            unit_number: 1
+            mode: persistent
+            filename: "[{{ iso_datastore }}] SEM3turnkey/netplank8s.iso"
+            start_connected: true
+            datastore_iso_file: "{{ vm_iso }}"
+            state: present
+    
       
 
     - name: Wait for 5 seconds before starting VM
