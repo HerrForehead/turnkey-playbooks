@@ -117,6 +117,20 @@
       pause:
         seconds: 5
 
+    - name: Add ISO as a disk
+      community.vmware.vmware_guest_cdrom:
+        hostname: "{{ vcenter_hostname }}"
+        username: "{{ vcenter_username }}"
+        password: "{{ vcenter_password }}"
+        validate_certs: False
+        datacenter: "{{ vcenter_datacenter }}"
+        name: "{{ vm_name }}"
+        state: present
+        cdrom:
+          type: iso
+          iso_datastore: "{{ iso_datastore }}"
+          iso_path: "{{ iso_path }}"
+
     - name: Power on the virtual machine
       community.vmware.vmware_guest:
         hostname: "vcenter.netlab.fhict.nl"

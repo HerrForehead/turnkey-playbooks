@@ -15,12 +15,8 @@ vm_disk_datastore: "NIM01-1"
 vm_hw_ram_mb: 8192
 vm_hw_cpu_n: 2
 
-
-
-
-
-
-
+iso_datastore: "NIM01-Uitwisseling"
+iso_path: "SEM3turnkey/netplank8s.iso"
 
 vcenter_hostname: "vcenter.netlab.fhict.nl" 
 vcenter_datacenter: "Netlab-DC" 
