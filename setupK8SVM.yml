@@ -132,6 +132,7 @@
         seconds: 300
 
     - name : Run a command on the VM to change netplan
+      become: true
       community.vmware.vmware_vm_shell:
         hostname: "{{ vcenter_hostname }}"
         username: "{{ vcenter_username }}"
@@ -139,8 +140,8 @@
         datacenter: "{{ vcenter_datacenter }}"
         folder: "/{{vcenter_datacenter}}"
         vm_id: "{{ vm_name }}"
-        vm_username: ubuntu
-        vm_password: ubuntu
+        vm_username: "ubuntu"
+        vm_password: "ubuntu"
         vm_shell: "/bin/bash"
         vm_shell_args: 'sudo echo -e "network:\n  ethernets:\n    ens160:\n      dhcp4: no\n      addresses: [192.168.169.100/24]\n      routes:\n        - to: default\n          via: 192.168.169.1\n      nameservers:\n        addresses: [8.8.8.8, 8.8.4.4]\n  version: 2" | sudo tee /etc/netplan/netlab.yaml | sudo netplan apply'
         wait_for_process: true
