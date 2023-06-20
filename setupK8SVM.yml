@@ -127,9 +127,9 @@
         name: "{{ vm_name }}"
         state: poweredon
 
-    - name: Wait for 30 seconds before checking vmware-tools status
+    - name: Wait for 30 seconds before running command
       pause:
-        seconds: 300
+        seconds: 250
 
     - name : Run a command on the VM to change netplan
       become: true
@@ -142,8 +142,8 @@
         vm_id: "{{ vm_name }}"
         vm_username: "ubuntu"
         vm_password: "ubuntu"
-        vm_shell: "/bin/bash"
-        vm_shell_args: 'sudo echo -e "network:\n  ethernets:\n    ens160:\n      dhcp4: no\n      addresses: [192.168.169.100/24]\n      routes:\n        - to: default\n          via: 192.168.169.1\n      nameservers:\n        addresses: [8.8.8.8, 8.8.4.4]\n  version: 2" | sudo tee /etc/netplan/netlab.yaml | sudo netplan apply'
+        vm_shell: "/bin/echo"
+        vm_shell_args: '-e "network:\n  ethernets:\n    ens192:\n      dhcp4: no\n      addresses: [192.168.169.100/24]\n      routes:\n        - to: default\n          via: 192.168.169.1\n      nameservers:\n        addresses: [8.8.8.8, 8.8.4.4]\n  version: 2" | sudo tee /etc/netplan/netlab.yaml'
         wait_for_process: true
       delegate_to: localhost
       register: shell_command_output
