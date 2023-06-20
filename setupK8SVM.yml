@@ -109,34 +109,12 @@
           hotremove_cpu: true
           hotadd_memory: false
           boot_firmware: "efi"
+          cdrom:
+            type: "iso"
+            iso_path: "{{ iso_path }}"
 
         #state: powered-on
         #state: present
-    # Add a cd rom to the VM and mount the ISO
-    - name: Add a cd rom to the VM and mount the ISO
-      community.vmware.vmware_guest_disk:
-        hostname: "vcenter.netlab.fhict.nl"
-        username: "{{ vcenter_username }}"
-        password: "{{ vcenter_password }}"
-        datacenter: "Netlab-DC"
-        cluster: "NETLAB-Cluster"
-        name: "{{ vm_name }}"
-        state: present
-        disk:
-          - size_gb: 1
-            type: thin
-            datastore: "{{ iso_datastore }}"
-            autoselect_datastore: true
-            scsi_controller: 0
-            scsi_type: paravirtual
-            unit_number: 1
-            mode: persistent
-            filename: "[{{ iso_datastore }}] SEM3turnkey/netplank8s.iso"
-            start_connected: true
-            datastore_iso_file: "{{ vm_iso }}"
-            state: present
-    
-      
 
     - name: Wait for 5 seconds before starting VM
       pause:
