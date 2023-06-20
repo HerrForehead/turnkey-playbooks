@@ -127,6 +127,8 @@
             unit_number: 1
             disk_mode: 'persistent'
           - filename: "[NIM01-Uitwisseling] SEM3turnkey/netplank8s.iso"
+      delegate_to: localhost
+      register: disk_facts
         #state: powered-on
         #state: present
 
