@@ -5,7 +5,7 @@ vcenter_password: "Wmy4CqMXY"
 
 vm_name: "kubernetes_cluster" 
 vm_guestid: "ubuntu64Guest" 
-vm_template_name: "Templ_MicroK8S_1.21.7-3_Ubuntu_20.04.3"
+vm_template_name: "kubernetes_temp"
 
 vm_disk_gb: 50
 vm_disk_type: "thin" 
