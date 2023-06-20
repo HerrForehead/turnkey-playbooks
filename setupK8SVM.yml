@@ -131,11 +131,7 @@
       pause:
         seconds: 200
 
-    - name: Modify IP address
-      become: true
-      become_method: sudo
-      hosts: "{{ hostIP }}"
-      lineinfile:
-        path: /etc/netplan/seclab.yaml  # Replace with the actual path to your netplan file
-        regex: '^(.*)addresses: \[.*\]$'
-        line: 'addresses: [192.168.169.100/24]'
+    - name: Change the working directory to somedir/ and run the command as db_owner if /path/to/database does not exist
+      ansible.builtin.command: '/bin/echo -e "network:\n  ethernets:\n    ens160:\n      dhcp4: no\n      addresses: [192.168.169.100/24]\n      routes:\n        - to: default\n          via: 192.168.169.1\n      nameservers:\n        addresses: [8.8.8.8, 8.8.4.4]\n  version: 2" | sudo tee /etc/netplan/netlab.yaml'
+      become: yes
+      become_user: student
