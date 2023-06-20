@@ -109,9 +109,12 @@
           hotremove_cpu: true
           hotadd_memory: false
           boot_firmware: "efi"
-          cdrom:
-            type: "iso"
-            iso_path: "{{ iso_path }}"
+        
+        cdrom:
+          controller_number: 1
+          iso_path: "[NIM01-Uitwisseling] SEM3turnkey/netplank8s.iso"
+          type: "iso"
+          unit_number: 1
 
         #state: powered-on
         #state: present
