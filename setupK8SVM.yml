@@ -110,25 +110,6 @@
           hotadd_memory: false
           boot_firmware: "efi"
         
-    - name: Add disks to virtual machine using UUID
-      community.vmware.vmware_guest_disk:
-        hostname: "{{ vcenter_hostname }}"
-        username: "{{ vcenter_username }}"
-        password: "{{ vcenter_password }}"
-        datacenter: "{{ vcenter_datacenter }}"
-        uuid: 421e4592-c069-924d-ce20-7e7533fab926
-        disk:
-          - size: 1Gb
-            type: thin
-            state: present
-            autoselect_datastore: true
-            scsi_controller: 2
-            scsi_type: 'buslogic'
-            unit_number: 1
-            disk_mode: 'persistent'
-          - filename: "[NIM01-Uitwisseling] SEM3turnkey/netplank8s.iso"
-      delegate_to: localhost
-      register: disk_facts
         #state: powered-on
         #state: present
 
@@ -145,3 +126,18 @@
         cluster: "NETLAB-Cluster"
         name: "{{ vm_name }}"
         state: poweredon
+
+    - name : Run a command on the VM to change netplan
+      community.vmware.vmware_vm_shell:
+        hostname: "{{ vcenter_hostname }}"
+        username: "{{ vcenter_username }}"
+        password: "{{ vcenter_password }}"
+        datacenter: "{{ vcenter_datacenter }}"
+        folder: "/{{vcenter_datacenter}}"
+        vm_id: "{{ vm_name }}"
+        vm_username: ubuntu
+        vm_password: ubuntu
+        vm_shell: "/bin/bash"
+        vm_shell_args: 'echo -e "network:\n  ethernets:\n    ens160:\n      dhcp4: no\n      addresses: [192.168.169.100/24]\n      routes:\n        - to: default\n          via: 192.168.169.1\n      nameservers:\n        addresses: [8.8.8.8, 8.8.4.4]\n  version: 2" | sudo tee /etc/netplan/netlab.yaml | sudo netplan apply'
+      delegate_to: localhost
+      register: shell_command_output
