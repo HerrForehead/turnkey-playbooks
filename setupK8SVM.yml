@@ -127,6 +127,19 @@
         name: "{{ vm_name }}"
         state: poweredon
 
+    - name: "Check the vmware-tools status"
+      vmware_guest_info:
+        hostname: "{{ vcenter_hostname }}"
+        username: "{{ vcenter_username }}"
+        password: "{{ vcenter_password }}"
+        validate_certs: false
+        datacenter: "{{ vcenter_datacenter }}"
+        folder: "{{ folder_name }}"
+        name: "{{ vm_name }}"
+      register: check_vmware_tools_status_result
+
+    - debug: var=check_vmware_tools_status_result.instance.guest_tools_status
+
     - name : Run a command on the VM to change netplan
       community.vmware.vmware_vm_shell:
         hostname: "{{ vcenter_hostname }}"
@@ -139,5 +152,6 @@
         vm_password: ubuntu
         vm_shell: "/bin/bash"
         vm_shell_args: 'echo -e "network:\n  ethernets:\n    ens160:\n      dhcp4: no\n      addresses: [192.168.169.100/24]\n      routes:\n        - to: default\n          via: 192.168.169.1\n      nameservers:\n        addresses: [8.8.8.8, 8.8.4.4]\n  version: 2" | sudo tee /etc/netplan/netlab.yaml | sudo netplan apply'
+        wait_for_process: true
       delegate_to: localhost
       register: shell_command_output
