@@ -104,6 +104,7 @@
           memory_mb: "{{ vm_hw_ram_mb }}"
           num_cpus: "{{ vm_hw_cpu_n }}"
           num_cpu_cores_per_socket: 1
+          nested_virt: true
           scsi: paravirtual
           hotadd_cpu: true
           hotremove_cpu: true
