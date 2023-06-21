@@ -5,7 +5,7 @@ vcenter_password: "Wmy4CqMXY"
 
 vm_name: "kubernetes_cluster" 
 vm_guestid: "ubuntu64Guest" 
-vm_template_name: "kubernetes_temp"
+vm_template_name: "microk8smultipass"
 
 vm_disk_gb: 50
 vm_disk_type: "thin" 
